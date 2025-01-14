@@ -1,3 +1,4 @@
+<!-- resources/views/report/index.blade.php -->
 @extends('layouts.app')
 
 @section('title', 'Reports')
@@ -33,41 +34,45 @@
                                 <h4>Filter Reports</h4>
                             </div>
                             <div class="card-body">
-                                <form action="{{ route('orders.filter') }}" method="GET">
+                                <form action="{{ route('report.generate') }}" method="POST">
+                                    @csrf
                                     <div class="form-group">
+                                        <label for="type">Type of Report</label>
+                                        <select id="type" name="type" class="form-control">
+                                            <option value="daily">Daily Report</option>
+                                            <option value="monthly">Monthly Report</option>
+                                            <option value="yearly">Yearly Report</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="date-range">
                                         <label for="start_date">Start Date</label>
                                         <input type="date" id="start_date" name="start_date" class="form-control">
-                                    </div>
-                                    <div class="form-group">
                                         <label for="end_date">End Date</label>
                                         <input type="date" id="end_date" name="end_date" class="form-control">
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Filter</button>
+                                    <div class="form-group" id="month-year">
+                                        <label for="month">Month</label>
+                                        <input type="month" id="month" name="month" class="form-control">
+                                        <label for="year">Year</label>
+                                        <select id="year" name="year" class="form-control">
+                                            @for ($year = 2000; $year <= date('Y'); $year++)
+                                                <option value="{{ $year }}">{{ $year }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="year-only">
+                                        <div class="form-group" id="year-only">
+                                            <label for="year">Year</label>
+                                            <select id="year" name="year_only" class="form-control">
+                                                @for ($year = 2000; $year <= date('Y'); $year++)
+                                                    <option value="{{ $year }}">{{ $year }}</option>
+                                                @endfor
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Generate Report</button>
                                 </form>
-                                @if(isset($orders))
-                                <div class="table-responsive mt-4">
-                                    <table class="table-striped table">
-                                        <tr>
-                                            <th>Transaction Time</th>
-                                            <th>Total Price</th>
-                                            <th>Total Item</th>
-                                            <th>Kasir</th>
-                                        </tr>
-                                        @foreach($orders as $order)
-                                            <tr>
-                                                <td><a href="{{ route('order.show', $order->id) }}">{{ $order->transaction_time }}</a></td>
-                                                <td>{{ $order->total_price }}</td>
-                                                <td>{{ $order->total_item }}</td>
-                                                <td>{{ $order->kasir->name }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </table>
-                                </div>
-                                @endif
-                                <div class="list-group mt-4">
-                                    <a href="{{ route('reports.daily') }}" class="list-group-item list-group-item-action">Daily Report</a>
-                                    <a href="{{ route('reports.monthly') }}" class="list-group-item list-group-item-action">Monthly Report</a>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -82,5 +87,31 @@
     <script src="{{ asset('library/selectric/public/jquery.selectric.min.js') }}"></script>
 
     <!-- Page Specific JS File -->
-    <script src="{{ asset('js/page/features-posts.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const typeSelect = document.getElementById('type');
+            const dateRange = document.getElementById('date-range');
+            const monthYear = document.getElementById('month-year');
+            const yearOnly = document.getElementById('year-only');
+
+            function toggleDateFields() {
+                if (typeSelect.value === 'daily') {
+                    dateRange.style.display = 'block';
+                    monthYear.style.display = 'none';
+                    yearOnly.style.display = 'none';
+                } else if (typeSelect.value === 'monthly') {
+                    dateRange.style.display = 'none';
+                    monthYear.style.display = 'block';
+                    yearOnly.style.display = 'none';
+                } else {
+                    dateRange.style.display = 'none';
+                    monthYear.style.display = 'none';
+                    yearOnly.style.display = 'block';
+                }
+            }
+
+            typeSelect.addEventListener('change', toggleDateFields);
+            toggleDateFields(); // Run on page load to set initial state
+        });
+    </script>
 @endpush

@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,17 +22,30 @@ Route::get('/', function () {
     return view('pages.auth.login');
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('home', [\App\Http\Controllers\DashboardController::class, 'index'])->name('home');
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('home', [\App\Http\Controllers\DashboardController::class, 'index'])->name('home');
 
-    // Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+//     // Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+//     Route::resource('user', UserController::class);
+//     Route::resource('product', \App\Http\Controllers\ProductController::class);
+//     Route::resource('order', \App\Http\Controllers\OrderController::class);
+//     //report
+//     Route::get('report', [\App\Http\Controllers\ReportController::class, 'index'])->name('report.index');
+//     Route::get('orders/filter', [\App\Http\Controllers\OrderController::class, 'filter'])->name('orders.filter');
+// });
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('home', [DashboardController::class, 'index'])->name('home');
+
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('user', UserController::class);
-    Route::resource('product', \App\Http\Controllers\ProductController::class);
-    Route::resource('order', \App\Http\Controllers\OrderController::class);
-    Route::get('reports/daily', [\App\Http\Controllers\OrderController::class, 'dailyReport'])->name('reports.daily');
-    Route::get('reports/monthly', [\App\Http\Controllers\OrderController::class, 'monthlyReport'])->name('reports.monthly');
-    Route::get('reports', function () {
-        return view('pages.report.index');
-    })->name('report.index');
-    Route::get('orders/filter', [\App\Http\Controllers\OrderController::class, 'filterByDate'])->name('orders.filter');
+    Route::resource('product', ProductController::class);
+    Route::resource('order', OrderController::class);
+
+    // Report routes
+    Route::get('report', [ReportController::class, 'index'])->name('report.index');
+    Route::post('report/generate', [ReportController::class, 'generate'])->name('report.generate');
+
+    // Order filter route
+    Route::get('orders/filter', [OrderController::class, 'filter'])->name('orders.filter');
 });

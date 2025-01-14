@@ -99,7 +99,7 @@
                                     <div class="detail-name">Today's Sales</div>
                                 </div>
                                 <div class="statistic-details-item">
-                                    <span class="text-muted"><span class="text-primary">
+                                    <span class="text-muted"><span class="text-danger">
                                     <div class="detail-value">{{ $weekSales }}</div>
                                     <div class="detail-name">This Week's Sales</div>
                                 </div>
