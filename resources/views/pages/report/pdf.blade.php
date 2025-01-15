@@ -25,6 +25,7 @@
 </head>
 <body>
     <h1>Report Results</h1>
+    @if(!empty($orders) && $orders->count())
     <table>
         <thead>
             <tr>
@@ -47,5 +48,8 @@
             @endforeach
         </tbody>
     </table>
+    @else
+    <p>No orders found for the selected period.</p>
+    @endif
 </body>
 </html>

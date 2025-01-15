@@ -22,14 +22,22 @@ class ReportController extends Controller
         if ($type == 'daily') {
             $startDate = $request->input('start_date');
             $endDate = $request->input('end_date');
-            $orders = Order::whereBetween('created_at', [$startDate, $endDate])->get();
-        } else if ($type == 'monthly') {
+
+            if ($startDate == $endDate) {
+                $orders = Order::whereDate('created_at', $startDate)->get();
+            } else {
+                $orders = Order::whereDate('created_at', '>=', $startDate)
+                    ->whereDate('created_at', '<=', $endDate)
+                    ->get();
+            }
+        } elseif ($type == 'monthly') {
             $month = $request->input('month');
             $year = $request->input('year');
-            // Extract the month part from the month input
             $month = date('m', strtotime($month));
-            $orders = Order::whereYear('created_at', $year)->whereMonth('created_at', $month)->get();
-            // Debugging: Log the query result
+
+            $orders = Order::whereYear('created_at', $year)
+                ->whereMonth('created_at', $month)
+                ->get();
         } else {
             $year = $request->input('year_only');
             $orders = Order::whereYear('created_at', $year)->get();
