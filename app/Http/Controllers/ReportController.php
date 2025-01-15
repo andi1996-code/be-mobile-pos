@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use App\Models\Product;
 use App\Models\User;
 
@@ -34,7 +35,13 @@ class ReportController extends Controller
             $orders = Order::whereYear('created_at', $year)->get();
         }
 
-        // Generate PDF $pdf = PDF::loadView('report.pdf', compact('orders')); return $pdf->download('report.pdf');
-        return view('pages.report.result', compact('orders'));
+        if ($orders->isEmpty()) {
+            return back()->with('error', 'Tidak ada pesanan yang ditemukan untuk periode ini.');
+        }
+
+        // Generate PDF
+        $pdf = PDF::loadView('pages.report.pdf', compact('orders'));
+        return $pdf->download('report.pdf');
+        // return view('pages.report.result', compact('orders'));
     }
 }
