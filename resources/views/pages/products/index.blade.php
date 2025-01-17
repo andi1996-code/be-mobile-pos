@@ -81,7 +81,7 @@
                                                     {{ $product->category }}
                                                 </td>
                                                 <td>
-                                                    {{ $product->price }}
+                                                    IDR {{ $product->price }}
                                                 </td>
                                                 <td>
                                                     @if ($product->image)

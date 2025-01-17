@@ -43,10 +43,6 @@ class ReportController extends Controller
             $orders = Order::whereYear('created_at', $year)->get();
         }
 
-        if ($orders->isEmpty()) {
-            return back()->with('error', 'Tidak ada pesanan yang ditemukan untuk periode ini.');
-        }
-
         // Generate PDF
         $pdf = PDF::loadView('pages.report.pdf', compact('orders'));
         return $pdf->download('report.pdf');

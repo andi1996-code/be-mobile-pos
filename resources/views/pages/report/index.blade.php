@@ -39,7 +39,7 @@
                                     <div class="form-group">
                                         <label for="type">Type of Report</label>
                                         <select id="type" name="type" class="form-control">
-                                            <option value="daily">Daily Report</option>
+                                            {{-- <option value="daily">Daily Report</option> --}}
                                             <option value="monthly">Monthly Report</option>
                                             <option value="yearly">Yearly Report</option>
                                         </select>

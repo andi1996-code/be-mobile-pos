@@ -41,7 +41,8 @@ class ProductController extends Controller
         $data = $request->all();
 
         $product = new \App\Models\Product;
-        $product->name = $request->name;
+        $product->name = ucwords($request->name);
+        // $product->name = $request->name;
         $product->price = (int) $request->price;
         $product->stock = (int) $request->stock;
         $product->category = $request->category;
@@ -60,6 +61,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
+        $data['name'] = ucwords($data['name']);
         $product = \App\Models\Product::findOrFail($id);
         $product->update($data);
         return redirect()->route('product.index')->with('success', 'Product successfully updated');
