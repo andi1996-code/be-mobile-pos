@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,17 +23,8 @@ Route::get('/', function () {
     return view('pages.auth.login');
 });
 
-// Route::middleware(['auth'])->group(function () {
-//     Route::get('home', [\App\Http\Controllers\DashboardController::class, 'index'])->name('home');
-
-//     // Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-//     Route::resource('user', UserController::class);
-//     Route::resource('product', \App\Http\Controllers\ProductController::class);
-//     Route::resource('order', \App\Http\Controllers\OrderController::class);
-//     //report
-//     Route::get('report', [\App\Http\Controllers\ReportController::class, 'index'])->name('report.index');
-//     Route::get('orders/filter', [\App\Http\Controllers\OrderController::class, 'filter'])->name('orders.filter');
-// });
+Route::get('/register', [RegisterController::class, 'index'])->name('register');
+Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('home', [DashboardController::class, 'index'])->name('home');
