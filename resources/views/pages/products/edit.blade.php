@@ -78,7 +78,7 @@
                                 <select class="form-control selectric @error('category') is-invalid @enderror" name="category">
                                     <option value="">Select Category</option>
                                     @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        <option value="{{ $category->id }}" {{ $product->category == $category->name ? 'selected' : '' }}>{{ $category->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('category')

@@ -54,8 +54,9 @@ class ProductController extends Controller
 
     public function edit($id)
     {
+        $categories = \App\Models\Category::all();
         $product = \App\Models\Product::findOrFail($id);
-        return view('pages.products.edit', compact('product'));
+        return view('pages.products.edit', compact('product', 'categories'));
     }
 
     public function update(Request $request, $id)
@@ -83,7 +84,7 @@ class ProductController extends Controller
         $data['category'] = $category->name; // Save category name instead of ID
 
         $product->update($data);
-        return redirect()->route('product.index')->with('success', 'Product successfully updated');
+        return redirect()->route('product.index',)->with('success', 'Product successfully updated');
     }
 
     public function destroy($id)
