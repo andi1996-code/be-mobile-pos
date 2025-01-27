@@ -23,12 +23,8 @@
                     <div class="breadcrumb-item">Product</div>
                 </div>
             </div>
-
             <div class="section-body">
                 <h2 class="section-title">Product</h2>
-
-
-
                 <div class="card">
                     <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -75,27 +71,20 @@
                                     </div>
                                 @enderror
                             </div>
-
                             <div class="form-group">
-                                <label class="form-label">Category</label>
-                                <div class="selectgroup w-100">
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="category" value="food" class="selectgroup-input"
-                                            checked="">
-                                        <span class="selectgroup-button">Food</span>
-                                    </label>
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="category" value="drink" class="selectgroup-input">
-                                        <span class="selectgroup-button">Drink</span>
-                                    </label>
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="category" value="snack" class="selectgroup-input">
-                                        <span class="selectgroup-button">Snack</span>
-                                    </label>
-
-                                </div>
+                                <label>Category</label>
+                                <select class="form-control selectric @error('category') is-invalid @enderror" name="category">
+                                    <option value="">Select Category</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('category')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
-
                             <div class="form-group">
                                 <label>Photo Product</label>
                                 <div class="col-sm-9">

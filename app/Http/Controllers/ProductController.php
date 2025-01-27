@@ -23,7 +23,8 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('pages.products.create');
+        $categories = \App\Models\Category::all();
+        return view('pages.products.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -32,23 +33,22 @@ class ProductController extends Controller
             'name' => 'required|min:3|unique:products',
             'price' => 'required|integer',
             'stock' => 'required|integer',
-            'category' => 'required|in:food,drink,snack',
+            'category' => 'required|exists:categories,id',
             'image' => 'required|image|mimes:png,jpg,jpeg'
         ]);
 
         $filename = time() . '.' . $request->image->extension();
         $request->image->storeAs('public/products', $filename);
-        $data = $request->all();
+
+        $category = \App\Models\Category::findOrFail($request->category);
 
         $product = new \App\Models\Product;
         $product->name = ucwords($request->name);
-        // $product->name = $request->name;
         $product->price = (int) $request->price;
         $product->stock = (int) $request->stock;
-        $product->category = $request->category;
+        $product->category = $category->name; // Save category name instead of ID
         $product->image = $filename;
         $product->save();
-
         return redirect()->route('product.index')->with('success', 'Product successfully created');
     }
 
@@ -60,9 +60,28 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|min:3|unique:products,name,' . $id,
+            'price' => 'required|integer',
+            'stock' => 'required|integer',
+            'category' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:png,jpg,jpeg'
+        ]);
+
+        $product = \App\Models\Product::findOrFail($id);
+
         $data = $request->all();
         $data['name'] = ucwords($data['name']);
-        $product = \App\Models\Product::findOrFail($id);
+
+        if ($request->hasFile('image')) {
+            $filename = time() . '.' . $request->image->extension();
+            $request->image->storeAs('public/products', $filename);
+            $data['image'] = $filename;
+        }
+
+        $category = \App\Models\Category::findOrFail($request->category);
+        $data['category'] = $category->name; // Save category name instead of ID
+
         $product->update($data);
         return redirect()->route('product.index')->with('success', 'Product successfully updated');
     }

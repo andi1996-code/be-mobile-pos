@@ -25,6 +25,15 @@
                 </ul>
             </li>
             <li class="nav-item dropdown">
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-sticky-note"></i><span>Categories</span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="nav-link" href="{{ route('category.index') }}">All Categories</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item dropdown">
                 <a href="#" class="nav-link has-dropdown"><i class="fa-solid fa-cart-shopping"></i><span>Products</span></a>
                 <ul class="dropdown-menu">
                     <li>
