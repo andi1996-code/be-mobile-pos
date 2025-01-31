@@ -11,14 +11,14 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Products</h1>
+                <h1>Menu</h1>
                 <div class="section-header-button">
                     <a href="{{ route('product.create') }}" class="btn btn-primary">Add New</a>
                 </div>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-                    <div class="breadcrumb-item"><a href="#">Products</a></div>
-                    <div class="breadcrumb-item">All Products</div>
+                    <div class="breadcrumb-item active"><a href="home">Dashboard</a></div>
+                    <div class="breadcrumb-item"><a href="product">Menu</a></div> 
+                    <div class="breadcrumb-item">All Menu</div>
                 </div>
             </div>
             <div class="section-body">
@@ -27,27 +27,17 @@
                         @include('layouts.alert')
                     </div>
                 </div>
-                <h2 class="section-title">Products</h2>
+                <h2 class="section-title">Menu</h2>
                 <p class="section-lead">
-                    You can manage all Products, such as editing, deleting and more.
+                    You can manage all Menu, such as editing, deleting and more.
                 </p>
-
-
                 <div class="row mt-4">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>All Products</h4>
+                                <h4>All Menu</h4>
                             </div>
                             <div class="card-body">
-                                <div class="float-left">
-                                    <select class="form-control selectric">
-                                        <option>Action For Selected</option>
-                                        <option>Move to Draft</option>
-                                        <option>Move to Pending</option>
-                                        <option>Delete Pemanently</option>
-                                    </select>
-                                </div>
                                 <div class="float-right">
                                     <form method="GET" action="{{ route('product.index') }}">
                                         <div class="input-group">
@@ -64,7 +54,6 @@
                                 <div class="table-responsive">
                                     <table class="table-striped table">
                                         <tr>
-
                                             <th>Name</th>
                                             <th>Category</th>
                                             <th>Price</th>
@@ -74,7 +63,6 @@
                                         </tr>
                                         @foreach ($products as $product)
                                             <tr>
-
                                                 <td>{{ $product->name }}
                                                 </td>
                                                 <td>
@@ -85,11 +73,14 @@
                                                 </td>
                                                 <td>
                                                     @if ($product->image)
-                                                        <img src="{{ asset('storage/products/'.$product->image) }}" alt=""
-                                                            width="100px" class="img-thumbnail">
-                                                            @else
-                                                            <span class="badge badge-danger">No Image</span>
-
+                                                        <div class="d-flex justify-content-center">
+                                                            <img src="{{ asset('storage/products/' . $product->image) }}"
+                                                                alt=""
+                                                                style="width: 100px;height: 100px;object-fit: cover;"
+                                                                class="img-thumbnail">
+                                                        </div>
+                                                    @else
+                                                        <span class="badge badge-danger">No Image</span>
                                                     @endif
 
                                                 </td>
@@ -101,7 +92,6 @@
                                                             <i class="fas fa-edit"></i>
                                                             Edit
                                                         </a>
-
                                                         <form action="{{ route('product.destroy', $product->id) }}"
                                                             method="POST" class="ml-2">
                                                             <input type="hidden" name="_method" value="DELETE" />
@@ -115,8 +105,6 @@
                                                 </td>
                                             </tr>
                                         @endforeach
-
-
                                     </table>
                                 </div>
                                 <div class="float-right">

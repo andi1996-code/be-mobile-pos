@@ -94,13 +94,13 @@
                                             checked="">
                                         <span class="selectgroup-button">Admin</span>
                                     </label>
-                                    <label class="selectgroup-item">
+                                    {{-- <label class="selectgroup-item">
                                         <input type="radio" name="roles" value="STAFF" class="selectgroup-input">
                                         <span class="selectgroup-button">Staff</span>
-                                    </label>
+                                    </label> --}}
                                     <label class="selectgroup-item">
-                                        <input type="radio" name="roles" value="USER" class="selectgroup-input">
-                                        <span class="selectgroup-button">User</span>
+                                        <input type="radio" name="roles" value="KASIR" class="selectgroup-input">
+                                        <span class="selectgroup-button">Kasir</span>
                                     </label>
 
                                 </div>

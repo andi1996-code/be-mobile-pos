@@ -26,13 +26,23 @@
                     </div>
                 </div>
                 <h2 class="section-title">Order Detail</h2>
-                <p class="section-lead">
-                <div>Total Price {{ $order->total_price }}</div>
-                <div>Transaction Time {{ $order->transaction_time }}</div>
-                <div>Total Item {{ $order->total_item }}</div>
 
-                </p>
-
+                <div class="order-summary card">
+                    <div class="card-header">
+                        <h4>Order Summary</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="summary-item">
+                            <strong>Total Price:</strong><span> Rp. </span> {{ $order->total_price }}
+                        </div>
+                        <div class="summary-item">
+                            <strong>Transaction Time:</strong> {{ $order->transaction_time }}
+                        </div>
+                        <div class="summary-item">
+                            <strong>Total Item:</strong> {{ $order->total_item }}
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row mt-4">
                     <div class="col-12">
